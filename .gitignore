@@ -1,0 +1,5 @@
+/client/.next
+/client/node_modules
+/client/.env.local
+/server/config.js
+/server/node_modules
