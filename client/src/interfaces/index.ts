@@ -1,72 +1,71 @@
-// Messages
-
-export interface MessagesVariables {
-  chatroomID: string
-};
-
 export interface Message {
-  _id: string,
-  chatroomID: string,
-  sender: string, 
-  message: string,
-  image: string,
-  createdAt: string
-};
+  _id: string;
+  chatroomID: string;
+  sender: string;
+  message: string;
+  image: string;
+  createdAt: string;
+}
 
 export interface MessagesData {
-  messages: Message[]
-};
+  messages: Message[];
+}
 
 export interface User {
-  _id: string,
-  name: string,
-  email: string,
-  image: string,
-  status: string | null
-};
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  status: string | null;
+}
 
 export interface UsersData {
-  users: User[]
-};
+  users: User[];
+}
 
 export interface UpdateUserData {
-  updateUser: User
-};
+  updateUser: User;
+}
 
 export interface UpdateUserInput {
   input: {
-    _id: string,
-    name: string,
-    status: string
-  }
+    _id: string;
+    name: string;
+    status: string;
+  };
+}
+
+export interface SocketUser {
+  userID: string;
+  socketID: string;
 }
 
 export interface ChatroomInput {
   input: {
-    currentUserID: string,
-    selectedContactID: string
-  }
-};
+    currentUserID: string;
+    selectedContactID: string;
+  };
+}
 
 export interface Chatroom {
-  _id: string,
-  members: string[]
-};
+  _id: string;
+  members: string[];
+}
 
 export interface ChatroomData {
-  chatroom: Chatroom
-};
+  chatroom: Chatroom;
+}
 
 export interface ChatroomsData {
-  chatrooms: Chatroom[]
-};
+  chatrooms: Chatroom[];
+}
 
 export interface ChatroomByID {
   chatroomByID: {
-    members: string[]
-  }
-};
+    members: string[];
+  };
+}
 
 export interface CreateChatroom {
-  createChatroom: Chatroom
-};
+  createChatroom: Chatroom;
+}

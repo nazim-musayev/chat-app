@@ -15,12 +15,33 @@ const io = new Server(socketServer, {
   }
 });
 
+let users = [];
+
+const addUser = (currentUserID, socketID) => {
+  const isSameSocket = users.some((user) => user.socketID === socketID);
+  if(!isSameSocket) {
+    users.push({
+      socketID,
+      userID: currentUserID,
+    })
+  }
+};
+
+const removeUser = (socketID) => {
+  users = users.filter((user) => user.socketID !== socketID);
+};
+
 io.on("connection", (socket) => {
   console.log(socket.id);
 
+  socket.on("get_online", (data) => {
+    addUser(data, socket.id);
+    socket.emit("get_users", users);
+  });
+
   socket.on("join_room", (data) => {
-    socket.join(data);
-    console.log(`user ${socket.id} joined to room ${data}`)
+    socket.join(data.chatroomID);
+    console.log(`user ${socket.id} joined to room ${data.chatroomID}`);
   });
 
   socket.on("send_message", (data) => {
@@ -28,7 +49,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(`disconnected - ${socket.id}`)
+    console.log(`disconnected - ${socket.id}`);
+    removeUser(socket.id);
+    socket.emit("get_users", users);
   });
 })
 

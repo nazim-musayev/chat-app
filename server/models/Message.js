@@ -8,14 +8,3 @@ const MessageSchema = new Schema({
 }, { timestamps: true });
 
 module.exports = model('Message', MessageSchema);
-
-
-// chatroomId: {
-//   type: String
-// },
-// sender: {
-//   type: String
-// },
-// message: {
-//   type: String
-// }

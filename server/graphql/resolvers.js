@@ -5,16 +5,10 @@ const Message = require('../models/Message');
 
 const resolvers = {
   Query: {
-    users: async () => {
-      const users = await User.find();
+    users: async (_, {id}) => {
+      const users = await User.find({ _id: {$ne: id} });
       return users;
     },
-    // chatrooms: async (_, { userID}) => {
-    //   const chatrooms = await Chatroom.find({
-    //     members: { $in: [ userID ] }
-    //   });
-    //   return chatrooms;
-    // },
     chatroom: async (_, args) => {
       const { currentUserID, selectedContactID } = args.input;
       const chatroom = await Chatroom.findOne({

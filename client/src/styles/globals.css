@@ -5,23 +5,24 @@
 @layer components {
   .contacts {
     height: 100%;
+    width: 100%;
     overflow: hidden;
   }
 }
 
 @layer utilities {
-   ::-webkit-scrollbar {
-     width: .5rem;
-   }
-   ::-webkit-scrollbar-thumb {
-     background: #1d1042; 
-     border-radius: 1rem;
-   }
-   .contacts::-webkit-scrollbar {
-     width: .5rem;
-   }
-   .contacts::-webkit-scrollbar-thumb {
-     background: #6249a7; 
-     border-radius: 1rem;
-   }
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1d1042;
+    border-radius: 1rem;
+  }
+  .contacts::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  .contacts::-webkit-scrollbar-thumb {
+    background: #6249a7;
+    border-radius: 1rem;
+  }
 }

@@ -1,50 +1,53 @@
-import type { NextPage, GetServerSideProps } from 'next';
-import { getSession } from 'next-auth/react';
-import Contacts from 'src/components/contacts';
-import client from 'src/apollo/client';
-import { QUERY_USERS } from 'src/apollo/queries';
-import { User, UsersData } from 'src/interfaces';
-import Header from 'src/components/shared/Header';
-import { BsMessenger } from 'react-icons/bs';
+import type { NextPage } from "next";
+import Contacts from "src/components/contacts";
+import Header from "src/components/shared/Header";
+import Chat from "src/components/chat";
+import { BsMessenger } from "react-icons/bs";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { onlineUsersState } from "src/recoil/onlineUsers";
+import { selectedContactState } from "src/recoil/selectedContact";
+import { useSetRecoilState, useResetRecoilState } from "recoil";
+import { io, Socket } from "socket.io-client";
 
+const socket: Socket = io("http://localhost:3001");
 
-export const getServerSideProps: GetServerSideProps = async (context) => {  
-  const session = await getSession(context);
+const Home: NextPage = () => {
+  const { data: session } = useSession();
+  const sessionUser = session?.user!;
+  const { asPath } = useRouter();
+  const setOnlineUsers = useSetRecoilState(onlineUsersState);
+  const resetSelectedContact = useResetRecoilState(selectedContactState);
 
-  const { data } = await client.query<UsersData>({
-    query: QUERY_USERS
-  });
+  useEffect(() => {
+    socket.emit("get_online", sessionUser.id);
+  }, [sessionUser.id]);
 
-  const contacts = data.users.filter((user) => user._id !== session?.user.id);
-  const currentUser = data.users.find((user) => user._id === session?.user.id);
+  useEffect(() => {
+    socket.on("get_users", (users) => setOnlineUsers(users));
+  }, [setOnlineUsers]);
 
-  const props = {
-    contacts,
-    currentUser
-  };
-
-  return {
-    props: JSON.parse(JSON.stringify(props))
-  }
-};
-
-interface Props {
-  contacts: User[],
-  currentUser: User
-};
-
-const Home: NextPage<Props> = ({ contacts, currentUser })  => {
+  useEffect(() => {
+    !asPath.includes("room") && resetSelectedContact();
+  }, [asPath, resetSelectedContact]);
+  
   return (
-    <div className="flex h-full bg-secondary overflow-hidden">
+    <div className="flex h-full bg-secondary">
       <div className="h-full w-[30%] text-white">
-        <Contacts currentContactID='' contacts={contacts} currentUser={currentUser} />
+        <Contacts sessionUser={sessionUser} />
       </div>
-      <div className="h-full w-[70%] bg-slate-200 relative">
-        <Header />
-        <BsMessenger className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-8xl text-primary' />
+      <div className="relative h-full w-[70%] bg-slate-200">
+        {!asPath.includes("room") && (
+          <>
+            <Header />
+            <BsMessenger className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-8xl text-primary" />
+          </>
+        )}
+        {asPath.includes("room") && <Chat socket={socket} sessionUser={sessionUser} /> }
       </div>
-    </div>      
-  )
-}
+    </div>
+  );
+};
 
-export default Home
+export default Home;

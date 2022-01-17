@@ -1,8 +1,8 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_USERS = gql`
-  query getUsers {
-    users {
+  query getUsers($id: ID!) {
+    users(id: $id) {
       _id
       name
       email
@@ -22,7 +22,7 @@ export const QUERY_CHATROOM = gql`
 `;
 
 export const QUERY_CHATROOM_BY_ID = gql`
-  query getChatroomByID($chatroomID: ID!){
+  query getChatroomByID($chatroomID: ID!) {
     chatroomByID(chatroomID: $chatroomID) {
       members
     }
@@ -30,7 +30,7 @@ export const QUERY_CHATROOM_BY_ID = gql`
 `;
 
 export const QUERY_MESSAGES = gql`
-  query getMessages($chatroomID: ID!){
+  query getMessages($chatroomID: ID!) {
     messages(chatroomID: $chatroomID) {
       _id
       chatroomID

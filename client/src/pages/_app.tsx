@@ -1,13 +1,11 @@
-import type { AppProps } from 'next/app';
-// import 'tailwindcss/tailwind.css';
-import '../styles/globals.css'
-import Layout from 'src/components/layout';
-import { SessionProvider } from "next-auth/react"
-import { ApolloProvider } from '@apollo/client';
-import client from 'src/apollo/client';
-import { RecoilRoot } from 'recoil';
-import { AnimatePresence } from 'framer-motion';
-
+import type { AppProps } from "next/app";
+import "../styles/globals.css";
+import Layout from "src/components/layout";
+import client from "src/apollo/client";
+import { SessionProvider } from "next-auth/react";
+import { ApolloProvider } from "@apollo/client";
+import { RecoilRoot } from "recoil";
+import { AnimatePresence } from "framer-motion";
 
 function MyApp({ Component, router, pageProps: { session, ...pageProps } }: AppProps) {
   return (
@@ -22,7 +20,7 @@ function MyApp({ Component, router, pageProps: { session, ...pageProps } }: AppP
         </RecoilRoot>
       </ApolloProvider>
     </SessionProvider>
-  )
-}
+  );
+};
 
-export default MyApp
+export default MyApp;

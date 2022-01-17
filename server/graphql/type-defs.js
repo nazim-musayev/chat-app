@@ -46,7 +46,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    users: [User]!
+    users(id: ID!): [User]!
     chatroomByID(chatroomID: ID!): Chatroom!
     chatroom(input: ChatroomInput!): Chatroom!
     messages(chatroomID: ID!): [Message]!

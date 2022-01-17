@@ -16,6 +16,13 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "custom.d.ts", "**/*.ts", "**/*.tsx", "src/lib/mongodb.js", "src/pages/api/auth/[...nextauth].js"],
+  "include": [
+    "next-env.d.ts",
+    "custom.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/lib/mongodb.js",
+    "src/pages/api/auth/[...nextauth].js"
+  ],
   "exclude": ["node_modules"]
 }
